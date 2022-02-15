@@ -1,64 +1,242 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## About API
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+git clone https://github.com/dralexsand/kotofoto.git
 
-## About Laravel
+cd kotofoto
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+docker-compose up --build
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Точка входа API:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+POST: http://127.0.0.1:8088/api/v1/prices
 
-## Learning Laravel
+Формат запроса:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```json
+{
+    "key": "password",
+    "data": [
+        {
+            "product_id": 1001001,
+            "prices": {
+                "1": {
+                    "price_purchase": 17001,
+                    "price_selling": 13501,
+                    "price_discount": 11001
+                },
+                "2": {
+                    "price_purchase": 10002,
+                    "price_selling": 12002,
+                    "price_discount": 11002
+                },
+                "3": {
+                    "price_purchase": 10003,
+                    "price_selling": 12003,
+                    "price_discount": 11003
+                },
+                "4": {
+                    "price_purchase": 10004,
+                    "price_selling": 12004,
+                    "price_discount": 11004
+                },
+                "5": {
+                    "price_purchase": 10005,
+                    "price_selling": 12005,
+                    "price_discount": 11005
+                },
+                "6": {
+                    "price_purchase": 10006,
+                    "price_selling": 12006,
+                    "price_discount": 11006
+                },
+                "7": {
+                    "price_purchase": 10007,
+                    "price_selling": 12007,
+                    "price_discount": 11007
+                },
+                "8": {
+                    "price_purchase": 10008,
+                    "price_selling": 12008,
+                    "price_discount": 11008
+                },
+                "9": {
+                    "price_purchase": 10009,
+                    "price_selling": 12009,
+                    "price_discount": 11009
+                },
+                "10": {
+                    "price_purchase": 10010,
+                    "price_selling": 12010,
+                    "price_discount": 11010
+                },
+                "11": {
+                    "price_purchase": 10011,
+                    "price_selling": 12011,
+                    "price_discount": 11011
+                },
+                "12": {
+                    "price_purchase": 10012,
+                    "price_selling": 12012,
+                    "price_discount": 11012
+                },
+                "13": {
+                    "price_purchase": 10013,
+                    "price_selling": 12013,
+                    "price_discount": 11013
+                },
+                "14": {
+                    "price_purchase": 10014,
+                    "price_selling": 12014,
+                    "price_discount": 11014
+                },
+                "15": {
+                    "price_purchase": 10015,
+                    "price_selling": 12015,
+                    "price_discount": 11015
+                },
+                "16": {
+                    "price_purchase": 10016,
+                    "price_selling": 12016,
+                    "price_discount": 11016
+                },
+                "17": {
+                    "price_purchase": 10017,
+                    "price_selling": 12017,
+                    "price_discount": 11017
+                },
+                "18": {
+                    "price_purchase": 10018,
+                    "price_selling": 12018,
+                    "price_discount": 11018
+                },
+                "19": {
+                    "price_purchase": 10019,
+                    "price_selling": 12019,
+                    "price_discount": 11019
+                },
+                "20": {
+                    "price_purchase": 10020,
+                    "price_selling": 12020,
+                    "price_discount": 11020
+                },
+                "21": {
+                    "price_purchase": 10020,
+                    "price_selling": 12020,
+                    "price_discount": 11020
+                }
+            }
+        },
+        {
+            "product_id": 1001002,
+            "prices": {
+                "1": {
+                    "price_purchase": 20001,
+                    "price_selling": 22001,
+                    "price_discount": 21001
+                },
+                "2": {
+                    "price_purchase": 20002,
+                    "price_selling": 22002,
+                    "price_discount": 21002
+                },
+                "3": {
+                    "price_purchase": 20003,
+                    "price_selling": 22003,
+                    "price_discount": 21003
+                },
+                "4": {
+                    "price_purchase": 20004,
+                    "price_selling": 22004,
+                    "price_discount": 21004
+                },
+                "5": {
+                    "price_purchase": 20005,
+                    "price_selling": 22005,
+                    "price_discount": 21005
+                },
+                "6": {
+                    "price_purchase": 20006,
+                    "price_selling": 22006,
+                    "price_discount": 21006
+                },
+                "7": {
+                    "price_purchase": 20007,
+                    "price_selling": 22007,
+                    "price_discount": 21007
+                },
+                "8": {
+                    "price_purchase": 20008,
+                    "price_selling": 22008,
+                    "price_discount": 21008
+                },
+                "9": {
+                    "price_purchase": 20009,
+                    "price_selling": 22009,
+                    "price_discount": 21009
+                },
+                "10": {
+                    "price_purchase": 20010,
+                    "price_selling": 22010,
+                    "price_discount": 21010
+                },
+                "11": {
+                    "price_purchase": 20011,
+                    "price_selling": 22011,
+                    "price_discount": 21011
+                },
+                "12": {
+                    "price_purchase": 20012,
+                    "price_selling": 22012,
+                    "price_discount": 21012
+                },
+                "13": {
+                    "price_purchase": 20013,
+                    "price_selling": 22013,
+                    "price_discount": 21013
+                },
+                "14": {
+                    "price_purchase": 20014,
+                    "price_selling": 22014,
+                    "price_discount": 21014
+                },
+                "15": {
+                    "price_purchase": 20015,
+                    "price_selling": 22015,
+                    "price_discount": 21015
+                },
+                "16": {
+                    "price_purchase": 20016,
+                    "price_selling": 22016,
+                    "price_discount": 21016
+                },
+                "17": {
+                    "price_purchase": 20017,
+                    "price_selling": 22017,
+                    "price_discount": 21017
+                },
+                "18": {
+                    "price_purchase": 20018,
+                    "price_selling": 22018,
+                    "price_discount": 21018
+                },
+                "19": {
+                    "price_purchase": 20019,
+                    "price_selling": 22019,
+                    "price_discount": 21019
+                },
+                "20": {
+                    "price_purchase": 20020,
+                    "price_selling": 22020,
+                    "price_discount": 21020
+                },
+                "21": {
+                    "price_purchase": 20020,
+                    "price_selling": 22020,
+                    "price_discount": 21020
+                }
+            }
+        }
+    ]
+}
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

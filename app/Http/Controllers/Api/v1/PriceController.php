@@ -17,7 +17,11 @@ class PriceController extends Controller
         $this->service = new PriceService();
     }
 
-    public function setPrices(SetPriceRequest $request)
+    /**
+     * @param SetPriceRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function setPrices(SetPriceRequest $request): \Illuminate\Http\JsonResponse
     {
         $all = $request->all();
         $data = $all['data'];
@@ -36,18 +40,5 @@ class PriceController extends Controller
                 'errors' => ['Ошибка записи']
             ], 500);
         }
-    }
-
-    public function test()
-    {
-        $oldRegions = [1, 2, 4, 3, 5, 6, 7, 8, 9];
-        $newRegions = [2, 1, 3, 4, 5, 7, 9, 11];
-
-        $data = [
-            'success' => true,
-            'data' => diffArrays($oldRegions, $newRegions),
-        ];
-
-        return $data;
     }
 }

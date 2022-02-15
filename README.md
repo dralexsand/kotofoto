@@ -10,7 +10,7 @@ docker-compose up --build
 
 POST: http://127.0.0.1:8088/api/v1/prices
 
-Формат запроса:
+Тело запроса (json):
 
 ```json
 {

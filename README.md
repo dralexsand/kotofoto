@@ -6,6 +6,10 @@ cd kotofoto
 
 docker-compose up --build
 
+docker exec -it kotofoto_test_app_php-server bash
+
+composer update
+
 Точка входа API:
 
 POST: http://127.0.0.1:8088/api/v1/prices

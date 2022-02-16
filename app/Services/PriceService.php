@@ -6,93 +6,101 @@ use App\Models\Price;
 use App\Models\PriceArchive;
 use App\Models\Product;
 use App\Models\Region;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class PriceService
 {
 
-    public function store(array $products): bool
+    // Получаем все соответствия id, region_id, product_id
+    // Во избежание дублей при добавлении новых позиций
+    /**
+     * @return array
+     */
+    public function getPricesDbData(): array
     {
-        foreach ($products as $product) {
-            $product_id = $product['product_id'];
+        $data = Price::select('id', 'region_id', 'product_id')->get();
+        $dataArray = [];
 
-            $productStored = Product::find($product_id);
+        $lastId = 1;
 
-            if (empty($productStored)) {
-                Product::create([
-                    'id' => $product_id,
-                ]);
-            }
-
-            $prices = $product['prices'];
-
-            foreach ($prices as $region_id => $price) {
-                $region = Region::find($region_id);
-
-                if (empty($region)) {
-                    Product::create([
-                        'id' => $region_id,
-                    ]);
-                }
-
-                $priceStored = Price::where([
-                    ['product_id', '=', $product_id],
-                    ['region_id', '=', $region_id]
-                ])->first();
-
-                if (empty($priceStored)) {
-                    Price::create([
-                        'product_id' => $product_id,
-                        'region_id' => $region_id,
-                        'purchase' => $price['price_purchase'],
-                        'selling' => $price['price_selling'],
-                        'discount' => $price['price_discount'],
-                    ]);
-                } else {
-                    $priceStored->update([
-                        'product_id' => $product_id,
-                        'region_id' => $region_id,
-                        'purchase' => $price['price_purchase'],
-                        'selling' => $price['price_selling'],
-                        'discount' => $price['price_discount'],
-                    ]);
-                }
-
-                PriceArchive::create([
-                    'product_id' => $product_id,
-                    'region_id' => $region_id,
-                    'purchase' => $price['price_purchase'],
-                    'selling' => $price['price_selling'],
-                    'discount' => $price['price_discount'],
-                ]);
-            }
+        foreach ($data as $item) {
+            $dataArray[$item->product_id][$item->region_id] = $item->id;
+            $lastId = $item->id;
         }
-
-        return true;
+        return [
+            'data' => $dataArray,
+            'last_id' => $lastId,
+        ];
     }
 
-    public function getStructuredResponse()
+
+    // Проверяем существование пары region_id, product_id, если есть - возвращаем id
+
+    /**
+     * @param array $data
+     * @param int $productId
+     * @param int $regionId
+     * @return int
+     */
+    public function findIdByRegionIdProductId(array $data, int $productId, int $regionId): int
     {
-        $items = Price::all();
-        $products = [];
+        return $data[$productId][$regionId] ?? 0;
+    }
 
-        foreach ($items as $item) {
-            $product_id = $item->product_id;
-            $region_id = $item->region_id;
+    // Формируем сырой запрос массовой вставки/обновления
 
-            $pricesItemArray = [
-                'product_id' => $product_id,
-                'prices' => [
-                    "$region_id" => [
-                        'price_purchase' => $item->purchase,
-                        'price_selling' => $item->selling,
-                        'price_discount' => $item->discount,
-                    ],
-                ]
-            ];
+    /**
+     * @param array $products
+     * @param array $dbData
+     * @return string
+     */
+    public function buildSqlUpdate(array $products, array $dbData): string
+    {
+        $idLast = $dbData['last_id'];
 
-            $products[] = $pricesItemArray;
+        $sql = [];
+        $sql[] = "INSERT INTO `prices` (id, product_id, region_id, purchase, selling, discount)";
+        $sql[] = "VALUES";
+        $values = [];
+
+        foreach ($products as $product) {
+            $productId = $product['product_id'];
+            $pricesData = $product['prices'];
+
+            foreach ($pricesData as $regionId => $priceContent) {
+                $idRecord = $this->findIdByRegionIdProductId($dbData['data'], $productId, $regionId);
+
+                if ($idRecord !== 0) {
+                    $i = $idRecord;
+                } else {
+                    $i = $idLast + 1;
+                    $idLast++;
+                }
+
+                $purchase = $priceContent['price_purchase'];
+                $selling = $priceContent['price_selling'];
+                $discount = $priceContent['price_discount'];
+
+                $values[] = "({$i}, {$productId}, {$regionId}, {$purchase}, {$selling}, {$discount})";
+            }
         }
 
+        $sql[] = implode(',', $values);
+        $sql[] = "ON DUPLICATE KEY";
+        $sql[] = "UPDATE";
+        $sql[] = "purchase=VALUES(purchase),";
+        $sql[] = "selling=VALUES(selling),";
+        $sql[] = "discount=VALUES(discount)";
+
+        return implode(' ', $sql);
+    }
+
+    public function store(array $products): array
+    {
+        $dbData = $this->getPricesDbData();
+        $sql = $this->buildSqlUpdate($products, $dbData);
+        DB::statement($sql);
         return $products;
     }
 

@@ -14,7 +14,7 @@ class CreatePricesTable extends Migration
     public function up()
     {
         Schema::create('prices', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id');
             $table->integer('product_id');
             $table->integer('region_id');
             $table->bigInteger('purchase')->default(0);
@@ -22,7 +22,7 @@ class CreatePricesTable extends Migration
             $table->bigInteger('discount')->default(0);
             $table->timestamps();
 
-            $table->index(['product_id', 'region_id']);
+            $table->primary('id');
         });
     }
 

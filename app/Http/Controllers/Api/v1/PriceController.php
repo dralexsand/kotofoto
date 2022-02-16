@@ -6,7 +6,7 @@ use App\Helpers\HelperPrice;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Price\SetPriceRequest;
 use App\Services\PriceService;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class PriceController extends Controller
 {
@@ -19,20 +19,19 @@ class PriceController extends Controller
 
     /**
      * @param SetPriceRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function setPrices(SetPriceRequest $request): \Illuminate\Http\JsonResponse
+    public function setPrices(SetPriceRequest $request): JsonResponse
     {
         $all = $request->all();
         $data = $all['data'];
 
-        $isStore = $this->service->store($data);
+        $dataStored = $this->service->store($data);
 
-        if ($isStore) {
-            $response = $this->service->getStructuredResponse();
+        if ($dataStored) {
             return response()->json([
                 'success' => true,
-                'data' => $response
+                'data' => $dataStored
             ], 200);
         } else {
             return response()->json([
